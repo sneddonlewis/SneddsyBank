@@ -2,12 +2,11 @@ package com.sneddsy.bank.web.rest;
 
 import com.sneddsy.bank.domain.BankAccount;
 import com.sneddsy.bank.repository.BankAccountRepository;
+import com.sneddsy.bank.service.BankAccountService;
 import com.sneddsy.bank.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -35,9 +34,11 @@ public class BankAccountResource {
     private String applicationName;
 
     private final BankAccountRepository bankAccountRepository;
+    private final BankAccountService bankAccountService;
 
-    public BankAccountResource(BankAccountRepository bankAccountRepository) {
+    public BankAccountResource(BankAccountRepository bankAccountRepository, BankAccountService bankAccountService) {
         this.bankAccountRepository = bankAccountRepository;
+        this.bankAccountService = bankAccountService;
     }
 
     /**
@@ -53,7 +54,7 @@ public class BankAccountResource {
         if (bankAccount.getId() != null) {
             throw new BadRequestAlertException("A new bankAccount cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        BankAccount result = bankAccountRepository.save(bankAccount);
+        BankAccount result = bankAccountService.createNewAccount(bankAccount).get();
         return ResponseEntity
             .created(new URI("/api/bank-accounts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
