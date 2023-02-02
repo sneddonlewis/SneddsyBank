@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20230202100102",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "bank_account",
+  "fields": [
+    {
+      "fieldName": "cardNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "16",
+      "fieldValidateRulesMinlength": "16"
+    },
+    {
+      "fieldName": "openDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "closingDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "balance",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "BankAccount",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "bankTransfer",
+      "otherEntityRelationshipName": "fromAccount",
+      "relationshipName": "transfersOut",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "bankTransfer",
+      "otherEntityRelationshipName": "toAccount",
+      "relationshipName": "transfersIn",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}
