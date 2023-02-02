@@ -1,0 +1,22 @@
+entity BankAccount {
+    cardNumber String required minlength(16) maxlength(16) unique
+    openDate LocalDate required
+    closingDate LocalDate
+    balance BigDecimal required
+}
+
+entity BankTransfer {
+    amount BigDecimal
+    executionTime ZonedDateTime
+}
+
+relationship ManyToOne {
+    BankAccount{user(login)} to User
+}
+
+relationship ManyToOne {
+    BankTransfer{fromAccount(cardNumber)} to BankAccount{transfersOut}
+}
+relationship ManyToOne {
+    BankTransfer{toAccount(cardNumber)} to BankAccount{transfersIn}
+}
