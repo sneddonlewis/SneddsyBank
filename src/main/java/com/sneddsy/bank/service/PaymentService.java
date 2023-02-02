@@ -32,7 +32,7 @@ public class PaymentService {
         Long toId = request.getToAccount().getId();
 
         BankAccount instigator = bankAccountRepository.getReferenceById(fromId);
-        if (instigator.getBalance().compareTo(amount) <= 0) {
+        if (instigator.getBalance().compareTo(amount) < 0) {
             // not enough money
             return Optional.empty();
         }
