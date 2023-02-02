@@ -1,0 +1,3 @@
+id;account_name;card_number;open_date;balance;user
+1;Bank Account;4012818301244359;2023-02-01;100;user
+2;Savings Account;5086934308743124;2023-02-02;100;user
