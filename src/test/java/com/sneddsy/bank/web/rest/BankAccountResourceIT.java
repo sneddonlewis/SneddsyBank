@@ -47,7 +47,6 @@ class BankAccountResourceIT {
     private static final String UPDATED_ACCOUNT_NAME = "BBBBBBBBBB";
 
     private static final String DEFAULT_CARD_NUMBER = "AAAAAAAAAAAAAAAA";
-    private static final String UPDATED_CARD_NUMBER = "BBBBBBBBBBBBBBBB";
 
     private static final AccountType DEFAULT_TYPE_OF_ACCOUNT = AccountType.CURRENT;
     private static final AccountType UPDATED_TYPE_OF_ACCOUNT = AccountType.SAVING;
@@ -107,7 +106,7 @@ class BankAccountResourceIT {
     public static BankAccount createUpdatedEntity(EntityManager em) {
         BankAccount bankAccount = new BankAccount()
             .accountName(UPDATED_ACCOUNT_NAME)
-            .cardNumber(UPDATED_CARD_NUMBER)
+            .cardNumber(DEFAULT_CARD_NUMBER)
             .typeOfAccount(UPDATED_TYPE_OF_ACCOUNT)
             .openDate(UPDATED_OPEN_DATE)
             .closingDate(UPDATED_CLOSING_DATE)
@@ -134,7 +133,7 @@ class BankAccountResourceIT {
         assertThat(bankAccountList).hasSize(databaseSizeBeforeCreate + 1);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
         assertThat(testBankAccount.getAccountName()).isEqualTo(DEFAULT_ACCOUNT_NAME);
-        assertThat(testBankAccount.getCardNumber()).isEqualTo(DEFAULT_CARD_NUMBER);
+        assertThat(testBankAccount.getCardNumber()).isNotEqualTo(DEFAULT_CARD_NUMBER);
         assertThat(testBankAccount.getTypeOfAccount()).isEqualTo(DEFAULT_TYPE_OF_ACCOUNT);
         assertThat(testBankAccount.getOpenDate()).isEqualTo(DEFAULT_OPEN_DATE);
         assertThat(testBankAccount.getClosingDate()).isEqualTo(DEFAULT_CLOSING_DATE);
@@ -322,7 +321,7 @@ class BankAccountResourceIT {
         em.detach(updatedBankAccount);
         updatedBankAccount
             .accountName(UPDATED_ACCOUNT_NAME)
-            .cardNumber(UPDATED_CARD_NUMBER)
+            .cardNumber(DEFAULT_CARD_NUMBER)
             .typeOfAccount(UPDATED_TYPE_OF_ACCOUNT)
             .openDate(UPDATED_OPEN_DATE)
             .closingDate(UPDATED_CLOSING_DATE)
@@ -341,7 +340,7 @@ class BankAccountResourceIT {
         assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
         assertThat(testBankAccount.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
-        assertThat(testBankAccount.getCardNumber()).isEqualTo(UPDATED_CARD_NUMBER);
+        assertThat(testBankAccount.getCardNumber()).isEqualTo(DEFAULT_CARD_NUMBER);
         assertThat(testBankAccount.getTypeOfAccount()).isEqualTo(UPDATED_TYPE_OF_ACCOUNT);
         assertThat(testBankAccount.getOpenDate()).isEqualTo(UPDATED_OPEN_DATE);
         assertThat(testBankAccount.getClosingDate()).isEqualTo(UPDATED_CLOSING_DATE);
@@ -418,7 +417,7 @@ class BankAccountResourceIT {
 
         partialUpdatedBankAccount
             .accountName(UPDATED_ACCOUNT_NAME)
-            .cardNumber(UPDATED_CARD_NUMBER)
+            .cardNumber(DEFAULT_CARD_NUMBER)
             .openDate(UPDATED_OPEN_DATE)
             .balance(UPDATED_BALANCE);
 
@@ -435,7 +434,6 @@ class BankAccountResourceIT {
         assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
         assertThat(testBankAccount.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
-        assertThat(testBankAccount.getCardNumber()).isEqualTo(UPDATED_CARD_NUMBER);
         assertThat(testBankAccount.getTypeOfAccount()).isEqualTo(DEFAULT_TYPE_OF_ACCOUNT);
         assertThat(testBankAccount.getOpenDate()).isEqualTo(UPDATED_OPEN_DATE);
         assertThat(testBankAccount.getClosingDate()).isEqualTo(DEFAULT_CLOSING_DATE);
@@ -456,7 +454,7 @@ class BankAccountResourceIT {
 
         partialUpdatedBankAccount
             .accountName(UPDATED_ACCOUNT_NAME)
-            .cardNumber(UPDATED_CARD_NUMBER)
+            .cardNumber(DEFAULT_CARD_NUMBER)
             .typeOfAccount(UPDATED_TYPE_OF_ACCOUNT)
             .openDate(UPDATED_OPEN_DATE)
             .closingDate(UPDATED_CLOSING_DATE)
@@ -475,7 +473,6 @@ class BankAccountResourceIT {
         assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
         assertThat(testBankAccount.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
-        assertThat(testBankAccount.getCardNumber()).isEqualTo(UPDATED_CARD_NUMBER);
         assertThat(testBankAccount.getTypeOfAccount()).isEqualTo(UPDATED_TYPE_OF_ACCOUNT);
         assertThat(testBankAccount.getOpenDate()).isEqualTo(UPDATED_OPEN_DATE);
         assertThat(testBankAccount.getClosingDate()).isEqualTo(UPDATED_CLOSING_DATE);

@@ -2,7 +2,9 @@ package com.sneddsy.bank.web.rest;
 
 import com.sneddsy.bank.domain.BankTransfer;
 import com.sneddsy.bank.repository.BankTransferRepository;
+import com.sneddsy.bank.service.PaymentService;
 import com.sneddsy.bank.web.rest.errors.BadRequestAlertException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -33,9 +35,11 @@ public class BankTransferResource {
     private String applicationName;
 
     private final BankTransferRepository bankTransferRepository;
+    private final PaymentService paymentService;
 
-    public BankTransferResource(BankTransferRepository bankTransferRepository) {
+    public BankTransferResource(BankTransferRepository bankTransferRepository, PaymentService paymentService) {
         this.bankTransferRepository = bankTransferRepository;
+        this.paymentService = paymentService;
     }
 
     /**
@@ -51,11 +55,25 @@ public class BankTransferResource {
         if (bankTransfer.getId() != null) {
             throw new BadRequestAlertException("A new bankTransfer cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        BankTransfer result = bankTransferRepository.save(bankTransfer);
-        return ResponseEntity
-            .created(new URI("/api/bank-transfers/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        if (bankTransfer.getFromAccount().equals(bankTransfer.getToAccount())) {
+            throw new BadRequestAlertException(
+                "A transfer cannot be made to the same account as the sender",
+                ENTITY_NAME,
+                "circular-transfer"
+            );
+        }
+        if (bankTransfer.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new BadRequestAlertException("A transfer must have a positive non-zero amount", ENTITY_NAME, "invalid-amount");
+        }
+        Optional<BankTransfer> maybeResult = paymentService.makeTransfer(bankTransfer);
+        if (maybeResult.isPresent()) {
+            BankTransfer result = maybeResult.get();
+            return ResponseEntity
+                .created(new URI("/api/bank-transfers/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        }
+        throw new BadRequestAlertException("Unable to complete transaction", ENTITY_NAME, "insufficient-funds");
     }
 
     /**

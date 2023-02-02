@@ -9,8 +9,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.sneddsy.bank.IntegrationTest;
+import com.sneddsy.bank.domain.BankAccount;
 import com.sneddsy.bank.domain.BankTransfer;
+import com.sneddsy.bank.domain.enumeration.AccountType;
+import com.sneddsy.bank.repository.BankAccountRepository;
 import com.sneddsy.bank.repository.BankTransferRepository;
+import com.sneddsy.bank.service.BankAccountService;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -34,6 +38,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -60,6 +65,12 @@ class BankTransferResourceIT {
     @Autowired
     private BankTransferRepository bankTransferRepository;
 
+    @Autowired
+    private BankAccountRepository bankAccountRepository;
+
+    @Autowired
+    private BankAccountService bankAccountService;
+
     @Mock
     private BankTransferRepository bankTransferRepositoryMock;
 
@@ -70,6 +81,8 @@ class BankTransferResourceIT {
     private MockMvc restBankTransferMockMvc;
 
     private BankTransfer bankTransfer;
+    private BankAccount sender;
+    private BankAccount receiver;
 
     /**
      * Create an entity for this test.
@@ -95,7 +108,21 @@ class BankTransferResourceIT {
 
     @BeforeEach
     public void initTest() {
-        bankTransfer = createEntity(em);
+        sender =
+            bankAccountService
+                .createNewAccount(BankAccountResourceIT.createEntity(em).balance(DEFAULT_AMOUNT).cardNumber("4000002280847383"))
+                .get();
+        receiver =
+            bankAccountService
+                .createNewAccount(
+                    BankAccountResourceIT
+                        .createEntity(em)
+                        .cardNumber("5000000101023553")
+                        .typeOfAccount(AccountType.SAVING)
+                        .balance(DEFAULT_AMOUNT)
+                )
+                .get();
+        bankTransfer = createEntity(em).amount(DEFAULT_AMOUNT).fromAccount(sender).toAccount(receiver);
     }
 
     @Test
@@ -103,16 +130,16 @@ class BankTransferResourceIT {
     void createBankTransfer() throws Exception {
         int databaseSizeBeforeCreate = bankTransferRepository.findAll().size();
         // Create the BankTransfer
-        restBankTransferMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(bankTransfer)))
-            .andExpect(status().isCreated());
+        RequestBuilder requestBuilder = post(ENTITY_API_URL)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(bankTransfer));
+        restBankTransferMockMvc.perform(requestBuilder).andExpect(status().isCreated());
 
         // Validate the BankTransfer in the database
         List<BankTransfer> bankTransferList = bankTransferRepository.findAll();
         assertThat(bankTransferList).hasSize(databaseSizeBeforeCreate + 1);
         BankTransfer testBankTransfer = bankTransferList.get(bankTransferList.size() - 1);
         assertThat(testBankTransfer.getAmount()).isEqualByComparingTo(DEFAULT_AMOUNT);
-        assertThat(testBankTransfer.getExecutionTime()).isEqualTo(DEFAULT_EXECUTION_TIME);
     }
 
     @Test
