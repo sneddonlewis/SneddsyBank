@@ -2,6 +2,7 @@ package com.sneddsy.bank.web.rest;
 
 import com.sneddsy.bank.domain.BankTransfer;
 import com.sneddsy.bank.repository.BankTransferRepository;
+import com.sneddsy.bank.service.PaymentService;
 import com.sneddsy.bank.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,9 +34,11 @@ public class BankTransferResource {
     private String applicationName;
 
     private final BankTransferRepository bankTransferRepository;
+    private final PaymentService paymentService;
 
-    public BankTransferResource(BankTransferRepository bankTransferRepository) {
+    public BankTransferResource(BankTransferRepository bankTransferRepository, PaymentService paymentService) {
         this.bankTransferRepository = bankTransferRepository;
+        this.paymentService = paymentService;
     }
 
     /**
@@ -51,11 +54,15 @@ public class BankTransferResource {
         if (bankTransfer.getId() != null) {
             throw new BadRequestAlertException("A new bankTransfer cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        BankTransfer result = bankTransferRepository.save(bankTransfer);
-        return ResponseEntity
-            .created(new URI("/api/bank-transfers/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        Optional<BankTransfer> maybeResult = paymentService.makeTransfer(bankTransfer);
+        if (maybeResult.isPresent()) {
+            BankTransfer result = maybeResult.get();
+            return ResponseEntity
+                .created(new URI("/api/bank-transfers/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        }
+        return ResponseEntity.badRequest().body(null);
     }
 
     /**
