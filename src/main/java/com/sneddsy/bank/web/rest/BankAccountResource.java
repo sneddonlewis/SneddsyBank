@@ -6,7 +6,9 @@ import com.sneddsy.bank.service.BankAccountService;
 import com.sneddsy.bank.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -34,6 +36,7 @@ public class BankAccountResource {
     private String applicationName;
 
     private final BankAccountRepository bankAccountRepository;
+
     private final BankAccountService bankAccountService;
 
     public BankAccountResource(BankAccountRepository bankAccountRepository, BankAccountService bankAccountService) {
@@ -131,6 +134,9 @@ public class BankAccountResource {
                 }
                 if (bankAccount.getCardNumber() != null) {
                     existingBankAccount.setCardNumber(bankAccount.getCardNumber());
+                }
+                if (bankAccount.getTypeOfAccount() != null) {
+                    existingBankAccount.setTypeOfAccount(bankAccount.getTypeOfAccount());
                 }
                 if (bankAccount.getOpenDate() != null) {
                     existingBankAccount.setOpenDate(bankAccount.getOpenDate());

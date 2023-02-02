@@ -20,6 +20,9 @@
             <column name="card_number" type="varchar(16)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_bank_account__card_number" />
             </column>
+            <column name="type_of_account" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="open_date" type="date">
                 <constraints nullable="false" />
             </column>
@@ -55,6 +58,7 @@
             <column name="id" type="numeric"/>
             <column name="account_name" type="string"/>
             <column name="card_number" type="string"/>
+            <column name="type_of_account" type="string"/>
             <column name="open_date" type="date"/>
             <column name="closing_date" type="date"/>
             <column name="balance" type="numeric"/>

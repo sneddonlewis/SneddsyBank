@@ -37,6 +37,10 @@ export const BankAccountDetail = () => {
           </dt>
           <dd>{bankAccountEntity.cardNumber}</dd>
           <dt>
+            <span id="typeOfAccount">Type Of Account</span>
+          </dt>
+          <dd>{bankAccountEntity.typeOfAccount}</dd>
+          <dt>
             <span id="openDate">Open Date</span>
           </dt>
           <dd>

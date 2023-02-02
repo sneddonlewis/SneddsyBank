@@ -1,9 +1,14 @@
 entity BankAccount {
     accountName String required
     cardNumber String required minlength(16) maxlength(16) unique
+    typeOfAccount AccountType required
     openDate LocalDate required
     closingDate LocalDate
     balance BigDecimal required
+}
+
+enum AccountType {
+    CURRENT, SAVING, LOAN
 }
 
 entity BankTransfer {

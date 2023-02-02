@@ -1,3 +1,11 @@
-id;account_name;card_number;open_date;balance;user
-1;Bank Account;4012818301244359;2023-02-01;100;user
-2;Savings Account;5086934308743124;2023-02-02;100;user
+id;account_name;card_number;type_of_account;open_date;closing_date;balance
+1;Savings Account;sensor Steel inc;LOAN;2023-02-01;2023-02-01;13298
+2;Checking Account;Fantastic Loan T;SAVING;2023-02-02;2023-02-02;6074
+3;Investment Account;Home Cotton Arub;LOAN;2023-02-02;2023-02-02;36473
+4;Credit Card Account;non-volatileXXXX;SAVING;2023-02-01;2023-02-01;42865
+5;Credit Card Account;online paymentXX;CURRENT;2023-02-01;2023-02-01;25063
+6;Money Market Account;Montana withdraw;CURRENT;2023-02-02;2023-02-02;76293
+7;Investment Account;RefinedXXXXXXXXX;SAVING;2023-02-02;2023-02-01;53590
+8;Home Loan Account;Toys platforms p;SAVING;2023-02-02;2023-02-02;19412
+9;Savings Account;Michigan Handmad;CURRENT;2023-02-01;2023-02-02;96863
+10;Credit Card Account;Credit Ports Vil;CURRENT;2023-02-01;2023-02-02;94272
