@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MenuItem from 'app/shared/layout/menus/menu-item';
+import { NavLink } from 'reactstrap';
 
 const EntitiesMenu = () => {
   return (
