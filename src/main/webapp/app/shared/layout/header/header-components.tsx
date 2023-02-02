@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
+import { NavbarBrand } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
@@ -12,17 +11,7 @@ export const BrandIcon = props => (
 
 export const Brand = () => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
-    <BrandIcon />
-    <span className="brand-title">SneddsyBank</span>
+    <span className="brand-title">Sneddsy Bank</span>
     <span className="navbar-version">{VERSION}</span>
   </NavbarBrand>
-);
-
-export const Home = () => (
-  <NavItem>
-    <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      <FontAwesomeIcon icon="home" />
-      <span>Home</span>
-    </NavLink>
-  </NavItem>
 );

@@ -1,16 +1,14 @@
 import React from 'react';
 
 import MenuItem from 'app/shared/layout/menus/menu-item';
+import { NavLink } from 'reactstrap';
 
 const EntitiesMenu = () => {
   return (
     <>
       {/* prettier-ignore */}
-      <MenuItem icon="asterisk" to="/bank-account">
-        Bank Account
-      </MenuItem>
-      <MenuItem icon="asterisk" to="/bank-transfer">
-        Bank Transfer
+      <MenuItem icon="money-check" to="/bank-account">
+        My Accounts
       </MenuItem>
       {/* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here */}
     </>
