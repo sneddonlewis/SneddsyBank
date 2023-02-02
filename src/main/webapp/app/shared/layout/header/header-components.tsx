@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NavbarBrand } from 'reactstrap';
+import { NavbarBrand, NavItem, NavLink } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
 
 export const BrandIcon = props => (
@@ -15,3 +15,11 @@ export const Brand = () => (
     <span className="navbar-version">{VERSION}</span>
   </NavbarBrand>
 );
+
+export const BankAccountsNavLink = () => {
+  return (
+    <NavItem>
+      <NavLink href="/bank-account">Accounts</NavLink>
+    </NavItem>
+  );
+};

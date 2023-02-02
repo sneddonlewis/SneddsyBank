@@ -2,13 +2,11 @@ import './header.scss';
 
 import React, { useState } from 'react';
 
-import { Navbar, Nav, NavbarToggler, Collapse, NavLink, NavItem } from 'reactstrap';
+import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
-import { Brand } from './header-components';
-import { AdminMenu, EntitiesMenu, AccountMenu } from '../menus';
-import { Link } from 'react-router-dom';
-import { BankAccountsNavLink } from 'app/shared/layout/menus/nav-components';
+import { BankAccountsNavLink, Brand } from './header-components';
+import { AdminMenu, AccountMenu } from '../menus';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
