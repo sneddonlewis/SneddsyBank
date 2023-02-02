@@ -4,6 +4,7 @@ import com.sneddsy.bank.domain.BankTransfer;
 import com.sneddsy.bank.repository.BankTransferRepository;
 import com.sneddsy.bank.service.PaymentService;
 import com.sneddsy.bank.web.rest.errors.BadRequestAlertException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -54,6 +55,16 @@ public class BankTransferResource {
         if (bankTransfer.getId() != null) {
             throw new BadRequestAlertException("A new bankTransfer cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if (bankTransfer.getFromAccount().equals(bankTransfer.getToAccount())) {
+            throw new BadRequestAlertException(
+                "A transfer cannot be made to the same account as the sender",
+                ENTITY_NAME,
+                "circular-transfer"
+            );
+        }
+        if (bankTransfer.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new BadRequestAlertException("A transfer must have a positive non-zero amount", ENTITY_NAME, "invalid-amount");
+        }
         Optional<BankTransfer> maybeResult = paymentService.makeTransfer(bankTransfer);
         if (maybeResult.isPresent()) {
             BankTransfer result = maybeResult.get();
@@ -62,7 +73,7 @@ public class BankTransferResource {
                 .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
                 .body(result);
         }
-        return ResponseEntity.badRequest().body(null);
+        throw new BadRequestAlertException("Unable to complete transaction", ENTITY_NAME, "insufficient-funds");
     }
 
     /**
