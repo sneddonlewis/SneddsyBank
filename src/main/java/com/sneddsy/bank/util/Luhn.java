@@ -1,8 +1,18 @@
 package com.sneddsy.bank.util;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Luhn {
+
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
+    public static String generateCardNumber(String INN) {
+        int[] digits = SECURE_RANDOM.ints(9, 0, 9).toArray();
+        int checkDigit = Luhn.getCheckSum(INN, digits);
+        return INN + Arrays.stream(digits).mapToObj(String::valueOf).collect(Collectors.joining()) + checkDigit;
+    }
 
     public static int getCheckSum(String inn, int[] accNum) {
         int[] concatNum = new int[accNum.length + 6];

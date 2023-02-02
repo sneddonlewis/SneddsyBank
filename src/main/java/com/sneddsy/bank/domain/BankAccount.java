@@ -1,6 +1,7 @@
 package com.sneddsy.bank.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sneddsy.bank.domain.enumeration.AccountType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,6 +37,11 @@ public class BankAccount implements Serializable {
     @Size(min = 16, max = 16)
     @Column(name = "card_number", length = 16, nullable = false, unique = true)
     private String cardNumber;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_of_account", nullable = false)
+    private AccountType typeOfAccount;
 
     @NotNull
     @Column(name = "open_date", nullable = false)
@@ -100,6 +106,19 @@ public class BankAccount implements Serializable {
 
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
+    }
+
+    public AccountType getTypeOfAccount() {
+        return this.typeOfAccount;
+    }
+
+    public BankAccount typeOfAccount(AccountType typeOfAccount) {
+        this.setTypeOfAccount(typeOfAccount);
+        return this;
+    }
+
+    public void setTypeOfAccount(AccountType typeOfAccount) {
+        this.typeOfAccount = typeOfAccount;
     }
 
     public LocalDate getOpenDate() {
@@ -242,6 +261,7 @@ public class BankAccount implements Serializable {
             "id=" + getId() +
             ", accountName='" + getAccountName() + "'" +
             ", cardNumber='" + getCardNumber() + "'" +
+            ", typeOfAccount='" + getTypeOfAccount() + "'" +
             ", openDate='" + getOpenDate() + "'" +
             ", closingDate='" + getClosingDate() + "'" +
             ", balance=" + getBalance() +

@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { IUser } from 'app/shared/model/user.model';
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { IBankAccount } from 'app/shared/model/bank-account.model';
+import { AccountType } from 'app/shared/model/enumerations/account-type.model';
 import { getEntity, updateEntity, createEntity, reset } from './bank-account.reducer';
 
 export const BankAccountUpdate = () => {
@@ -26,6 +27,7 @@ export const BankAccountUpdate = () => {
   const loading = useAppSelector(state => state.bankAccount.loading);
   const updating = useAppSelector(state => state.bankAccount.updating);
   const updateSuccess = useAppSelector(state => state.bankAccount.updateSuccess);
+  const accountTypeValues = Object.keys(AccountType);
 
   const handleClose = () => {
     navigate('/bank-account');
@@ -65,6 +67,7 @@ export const BankAccountUpdate = () => {
     isNew
       ? {}
       : {
+          typeOfAccount: 'CURRENT',
           ...bankAccountEntity,
           user: bankAccountEntity?.user?.id,
         };
@@ -107,6 +110,19 @@ export const BankAccountUpdate = () => {
                   maxLength: { value: 16, message: 'This field cannot be longer than 16 characters.' },
                 }}
               />
+              <ValidatedField
+                label="Type Of Account"
+                id="bank-account-typeOfAccount"
+                name="typeOfAccount"
+                data-cy="typeOfAccount"
+                type="select"
+              >
+                {accountTypeValues.map(accountType => (
+                  <option value={accountType} key={accountType}>
+                    {accountType}
+                  </option>
+                ))}
+              </ValidatedField>
               <ValidatedField
                 label="Open Date"
                 id="bank-account-openDate"

@@ -18,6 +18,12 @@
       "fieldValidateRulesMinlength": "16"
     },
     {
+      "fieldName": "typeOfAccount",
+      "fieldType": "AccountType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "CURRENT,SAVING,LOAN"
+    },
+    {
       "fieldName": "openDate",
       "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
