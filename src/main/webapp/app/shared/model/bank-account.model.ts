@@ -4,6 +4,7 @@ import { IBankTransfer } from 'app/shared/model/bank-transfer.model';
 
 export interface IBankAccount {
   id?: number;
+  accountName?: string;
   cardNumber?: string;
   openDate?: string;
   closingDate?: string | null;

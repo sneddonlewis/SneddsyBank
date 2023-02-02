@@ -29,6 +29,10 @@ public class BankAccount implements Serializable {
     private Long id;
 
     @NotNull
+    @Column(name = "account_name", nullable = false)
+    private String accountName;
+
+    @NotNull
     @Size(min = 16, max = 16)
     @Column(name = "card_number", length = 16, nullable = false, unique = true)
     private String cardNumber;
@@ -70,6 +74,19 @@ public class BankAccount implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAccountName() {
+        return this.accountName;
+    }
+
+    public BankAccount accountName(String accountName) {
+        this.setAccountName(accountName);
+        return this;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getCardNumber() {
@@ -223,6 +240,7 @@ public class BankAccount implements Serializable {
     public String toString() {
         return "BankAccount{" +
             "id=" + getId() +
+            ", accountName='" + getAccountName() + "'" +
             ", cardNumber='" + getCardNumber() + "'" +
             ", openDate='" + getOpenDate() + "'" +
             ", closingDate='" + getClosingDate() + "'" +

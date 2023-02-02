@@ -86,6 +86,16 @@ export const BankAccountUpdate = () => {
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? <ValidatedField name="id" required readOnly id="bank-account-id" label="ID" validate={{ required: true }} /> : null}
               <ValidatedField
+                label="Account Name"
+                id="bank-account-accountName"
+                name="accountName"
+                data-cy="accountName"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'This field is required.' },
+                }}
+              />
+              <ValidatedField
                 label="Card Number"
                 id="bank-account-cardNumber"
                 name="cardNumber"

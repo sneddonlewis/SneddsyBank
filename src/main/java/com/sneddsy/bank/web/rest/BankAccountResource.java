@@ -125,6 +125,9 @@ public class BankAccountResource {
         Optional<BankAccount> result = bankAccountRepository
             .findById(bankAccount.getId())
             .map(existingBankAccount -> {
+                if (bankAccount.getAccountName() != null) {
+                    existingBankAccount.setAccountName(bankAccount.getAccountName());
+                }
                 if (bankAccount.getCardNumber() != null) {
                     existingBankAccount.setCardNumber(bankAccount.getCardNumber());
                 }

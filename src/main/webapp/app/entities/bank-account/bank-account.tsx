@@ -47,6 +47,7 @@ export const BankAccount = () => {
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Account Name</th>
                 <th>Card Number</th>
                 <th>Open Date</th>
                 <th>Closing Date</th>
@@ -63,6 +64,7 @@ export const BankAccount = () => {
                       {bankAccount.id}
                     </Button>
                   </td>
+                  <td>{bankAccount.accountName}</td>
                   <td>{bankAccount.cardNumber}</td>
                   <td>
                     {bankAccount.openDate ? <TextFormat type="date" value={bankAccount.openDate} format={APP_LOCAL_DATE_FORMAT} /> : null}

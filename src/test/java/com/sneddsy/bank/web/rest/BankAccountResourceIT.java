@@ -42,6 +42,9 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class BankAccountResourceIT {
 
+    private static final String DEFAULT_ACCOUNT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_ACCOUNT_NAME = "BBBBBBBBBB";
+
     private static final String DEFAULT_CARD_NUMBER = "AAAAAAAAAAAAAAAA";
     private static final String UPDATED_CARD_NUMBER = "BBBBBBBBBBBBBBBB";
 
@@ -82,6 +85,7 @@ class BankAccountResourceIT {
      */
     public static BankAccount createEntity(EntityManager em) {
         BankAccount bankAccount = new BankAccount()
+            .accountName(DEFAULT_ACCOUNT_NAME)
             .cardNumber(DEFAULT_CARD_NUMBER)
             .openDate(DEFAULT_OPEN_DATE)
             .closingDate(DEFAULT_CLOSING_DATE)
@@ -97,6 +101,7 @@ class BankAccountResourceIT {
      */
     public static BankAccount createUpdatedEntity(EntityManager em) {
         BankAccount bankAccount = new BankAccount()
+            .accountName(UPDATED_ACCOUNT_NAME)
             .cardNumber(UPDATED_CARD_NUMBER)
             .openDate(UPDATED_OPEN_DATE)
             .closingDate(UPDATED_CLOSING_DATE)
@@ -122,6 +127,7 @@ class BankAccountResourceIT {
         List<BankAccount> bankAccountList = bankAccountRepository.findAll();
         assertThat(bankAccountList).hasSize(databaseSizeBeforeCreate + 1);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
+        assertThat(testBankAccount.getAccountName()).isEqualTo(DEFAULT_ACCOUNT_NAME);
         assertThat(testBankAccount.getCardNumber()).isEqualTo(DEFAULT_CARD_NUMBER);
         assertThat(testBankAccount.getOpenDate()).isEqualTo(DEFAULT_OPEN_DATE);
         assertThat(testBankAccount.getClosingDate()).isEqualTo(DEFAULT_CLOSING_DATE);
@@ -144,6 +150,23 @@ class BankAccountResourceIT {
         // Validate the BankAccount in the database
         List<BankAccount> bankAccountList = bankAccountRepository.findAll();
         assertThat(bankAccountList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void checkAccountNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = bankAccountRepository.findAll().size();
+        // set the field null
+        bankAccount.setAccountName(null);
+
+        // Create the BankAccount, which fails.
+
+        restBankAccountMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(bankAccount)))
+            .andExpect(status().isBadRequest());
+
+        List<BankAccount> bankAccountList = bankAccountRepository.findAll();
+        assertThat(bankAccountList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -209,6 +232,7 @@ class BankAccountResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(bankAccount.getId().intValue())))
+            .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
             .andExpect(jsonPath("$.[*].cardNumber").value(hasItem(DEFAULT_CARD_NUMBER)))
             .andExpect(jsonPath("$.[*].openDate").value(hasItem(DEFAULT_OPEN_DATE.toString())))
             .andExpect(jsonPath("$.[*].closingDate").value(hasItem(DEFAULT_CLOSING_DATE.toString())))
@@ -244,6 +268,7 @@ class BankAccountResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(bankAccount.getId().intValue()))
+            .andExpect(jsonPath("$.accountName").value(DEFAULT_ACCOUNT_NAME))
             .andExpect(jsonPath("$.cardNumber").value(DEFAULT_CARD_NUMBER))
             .andExpect(jsonPath("$.openDate").value(DEFAULT_OPEN_DATE.toString()))
             .andExpect(jsonPath("$.closingDate").value(DEFAULT_CLOSING_DATE.toString()))
@@ -270,6 +295,7 @@ class BankAccountResourceIT {
         // Disconnect from session so that the updates on updatedBankAccount are not directly saved in db
         em.detach(updatedBankAccount);
         updatedBankAccount
+            .accountName(UPDATED_ACCOUNT_NAME)
             .cardNumber(UPDATED_CARD_NUMBER)
             .openDate(UPDATED_OPEN_DATE)
             .closingDate(UPDATED_CLOSING_DATE)
@@ -287,6 +313,7 @@ class BankAccountResourceIT {
         List<BankAccount> bankAccountList = bankAccountRepository.findAll();
         assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
+        assertThat(testBankAccount.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
         assertThat(testBankAccount.getCardNumber()).isEqualTo(UPDATED_CARD_NUMBER);
         assertThat(testBankAccount.getOpenDate()).isEqualTo(UPDATED_OPEN_DATE);
         assertThat(testBankAccount.getClosingDate()).isEqualTo(UPDATED_CLOSING_DATE);
@@ -361,7 +388,7 @@ class BankAccountResourceIT {
         BankAccount partialUpdatedBankAccount = new BankAccount();
         partialUpdatedBankAccount.setId(bankAccount.getId());
 
-        partialUpdatedBankAccount.cardNumber(UPDATED_CARD_NUMBER).openDate(UPDATED_OPEN_DATE).balance(UPDATED_BALANCE);
+        partialUpdatedBankAccount.accountName(UPDATED_ACCOUNT_NAME).cardNumber(UPDATED_CARD_NUMBER).closingDate(UPDATED_CLOSING_DATE);
 
         restBankAccountMockMvc
             .perform(
@@ -375,10 +402,11 @@ class BankAccountResourceIT {
         List<BankAccount> bankAccountList = bankAccountRepository.findAll();
         assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
+        assertThat(testBankAccount.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
         assertThat(testBankAccount.getCardNumber()).isEqualTo(UPDATED_CARD_NUMBER);
-        assertThat(testBankAccount.getOpenDate()).isEqualTo(UPDATED_OPEN_DATE);
-        assertThat(testBankAccount.getClosingDate()).isEqualTo(DEFAULT_CLOSING_DATE);
-        assertThat(testBankAccount.getBalance()).isEqualByComparingTo(UPDATED_BALANCE);
+        assertThat(testBankAccount.getOpenDate()).isEqualTo(DEFAULT_OPEN_DATE);
+        assertThat(testBankAccount.getClosingDate()).isEqualTo(UPDATED_CLOSING_DATE);
+        assertThat(testBankAccount.getBalance()).isEqualByComparingTo(DEFAULT_BALANCE);
     }
 
     @Test
@@ -394,6 +422,7 @@ class BankAccountResourceIT {
         partialUpdatedBankAccount.setId(bankAccount.getId());
 
         partialUpdatedBankAccount
+            .accountName(UPDATED_ACCOUNT_NAME)
             .cardNumber(UPDATED_CARD_NUMBER)
             .openDate(UPDATED_OPEN_DATE)
             .closingDate(UPDATED_CLOSING_DATE)
@@ -411,6 +440,7 @@ class BankAccountResourceIT {
         List<BankAccount> bankAccountList = bankAccountRepository.findAll();
         assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
+        assertThat(testBankAccount.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
         assertThat(testBankAccount.getCardNumber()).isEqualTo(UPDATED_CARD_NUMBER);
         assertThat(testBankAccount.getOpenDate()).isEqualTo(UPDATED_OPEN_DATE);
         assertThat(testBankAccount.getClosingDate()).isEqualTo(UPDATED_CLOSING_DATE);

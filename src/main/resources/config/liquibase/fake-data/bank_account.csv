@@ -1,11 +1,11 @@
-id;card_number;open_date;closing_date;balance
-1;monitorXXXXXXXXX;2023-02-02;2023-02-02;85342
-2;FantasticXXXXXXX;2023-02-01;2023-02-01;56218
-3;ShoesXXXXXXXXXXX;2023-02-02;2023-02-02;5554
-4;LoanXXXXXXXXXXXX;2023-02-02;2023-02-01;82462
-5;Steel blockchain;2023-02-01;2023-02-02;4492
-6;facilitateXXXXXX;2023-02-01;2023-02-02;25720
-7;Computers Ethiop;2023-02-01;2023-02-01;42865
-8;Spurs Tuna Marke;2023-02-01;2023-02-02;31332
-9;Montana withdraw;2023-02-02;2023-02-02;34696
-10;transform indexi;2023-02-01;2023-02-01;800
+id;account_name;card_number;open_date;closing_date;balance
+1;Savings Account;sensor Steel inc;2023-02-01;2023-02-01;56218
+2;Savings Account;bypassXXXXXXXXXX;2023-02-02;2023-02-02;29169
+3;Home Loan Account;Dam generatingXX;2023-02-02;2023-02-02;44315
+4;Personal Loan Account;Savings Implemen;2023-02-01;2023-02-01;4762
+5;Money Market Account;Computers Ethiop;2023-02-01;2023-02-01;42865
+6;Credit Card Account;online paymentXX;2023-02-02;2023-02-01;95689
+7;Money Market Account;IntranetXXXXXXXX;2023-02-01;2023-02-01;26271
+8;Checking Account;Steel index Refi;2023-02-01;2023-02-02;55443
+9;Home Loan Account;Solutions GroupX;2023-02-02;2023-02-01;58535
+10;Savings Account;analyzing SoapXX;2023-02-01;2023-02-02;4552

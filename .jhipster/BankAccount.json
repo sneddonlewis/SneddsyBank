@@ -6,6 +6,11 @@
   "entityTableName": "bank_account",
   "fields": [
     {
+      "fieldName": "accountName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
       "fieldName": "cardNumber",
       "fieldType": "String",
       "fieldValidateRules": ["required", "minlength", "maxlength", "unique"],

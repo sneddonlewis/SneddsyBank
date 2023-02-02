@@ -29,6 +29,10 @@ export const BankAccountDetail = () => {
           </dt>
           <dd>{bankAccountEntity.id}</dd>
           <dt>
+            <span id="accountName">Account Name</span>
+          </dt>
+          <dd>{bankAccountEntity.accountName}</dd>
+          <dt>
             <span id="cardNumber">Card Number</span>
           </dt>
           <dd>{bankAccountEntity.cardNumber}</dd>

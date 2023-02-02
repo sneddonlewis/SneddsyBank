@@ -1,4 +1,5 @@
 entity BankAccount {
+    accountName String required
     cardNumber String required minlength(16) maxlength(16) unique
     openDate LocalDate required
     closingDate LocalDate

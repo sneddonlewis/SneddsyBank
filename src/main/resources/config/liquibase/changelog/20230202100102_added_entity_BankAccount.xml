@@ -14,6 +14,9 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="account_name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="card_number" type="varchar(16)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_bank_account__card_number" />
             </column>
@@ -50,6 +53,7 @@
                   tableName="bank_account"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
+            <column name="account_name" type="string"/>
             <column name="card_number" type="string"/>
             <column name="open_date" type="date"/>
             <column name="closing_date" type="date"/>
