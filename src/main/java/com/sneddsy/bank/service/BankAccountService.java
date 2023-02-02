@@ -21,7 +21,7 @@ public class BankAccountService {
     }
 
     public Optional<BankAccount> createNewAccount(BankAccount entity) {
-        String createdAccountNumber = Luhn.generateCardNumber("400000");
+        String createdAccountNumber = Luhn.generateCardNumber(entity.getTypeOfAccount().getInn());
         entity.setCardNumber(createdAccountNumber);
         return Optional.of(bankAccountRepository.save(entity));
     }
