@@ -28,9 +28,13 @@ export const BankAccount = () => {
       <h2 id="bank-account-heading" data-cy="BankAccountHeading">
         My Accounts
         <div className="d-flex justify-content-end">
-          <Link to="/bank-account/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link to="/bank-transfer/new" className="btn btn-default jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+            <FontAwesomeIcon icon="money-check" />
+            &nbsp; Transfer
+          </Link>
+          <Link to="/bank-account/new" className="btn btn-default jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create
+            &nbsp; New Account
           </Link>
         </div>
       </h2>
