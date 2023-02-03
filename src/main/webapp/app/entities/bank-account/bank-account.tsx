@@ -7,20 +7,16 @@ import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './bank-account.reducer';
-import { getTransactions } from '../bank-transfer/bank-transfer.reducer';
-import { TextFormat } from 'react-jhipster';
+import Transaction from 'app/entities/transactions/transaction';
 
 export const BankAccount = () => {
   const dispatch = useAppDispatch();
 
   const bankAccountList = useAppSelector(state => state.bankAccount.entities);
-  const bankTransferList = useAppSelector(state => state.bankTransfer.entities);
   const loading = useAppSelector(state => state.bankAccount.loading);
-  const transactionsLoading = useAppSelector(state => state.bankTransfer.loading);
 
   useEffect(() => {
     dispatch(getEntities({}));
-    dispatch(getTransactions({}));
   }, []);
 
   const handleSyncList = () => {
@@ -65,52 +61,7 @@ export const BankAccount = () => {
                         <p>{bankAccount.user ? bankAccount.user.login : ''}</p>
                       </td>
                       <td>
-                        <div className="table-responsive">
-                          {bankTransferList && bankTransferList.length > 0 ? (
-                            <Table responsive>
-                              <thead>
-                                <tr>
-                                  <th>Amount</th>
-                                  <th>Time</th>
-                                  <th>From Account</th>
-                                  <th>To Account</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {bankTransferList
-                                  .filter(t => t.fromAccount !== bankAccount.cardNumber)
-                                  .map((bankTransfer, i) => (
-                                    <tr key={`entity-${i}`} data-cy="entityTable">
-                                      <td>{bankTransfer.amount}</td>
-                                      <td>
-                                        {bankTransfer.executionTime ? (
-                                          <TextFormat type="date" value={bankTransfer.executionTime} format={APP_DATE_FORMAT} />
-                                        ) : null}
-                                      </td>
-                                      <td>
-                                        {bankTransfer.fromAccount ? (
-                                          <Link to={`/bank-account/${bankTransfer.fromAccount.id}`}>
-                                            {bankTransfer.fromAccount.cardNumber}
-                                          </Link>
-                                        ) : (
-                                          ''
-                                        )}
-                                      </td>
-                                      <td>
-                                        {bankTransfer.toAccount ? (
-                                          <Link to={`/bank-account/${bankTransfer.toAccount.id}`}>{bankTransfer.toAccount.cardNumber}</Link>
-                                        ) : (
-                                          ''
-                                        )}
-                                      </td>
-                                    </tr>
-                                  ))}
-                              </tbody>
-                            </Table>
-                          ) : (
-                            !transactionsLoading && <div className="alert alert-warning">No Bank Transfers found</div>
-                          )}
-                        </div>
+                        <Transaction />
                       </td>
                     </tr>
                   ))}
