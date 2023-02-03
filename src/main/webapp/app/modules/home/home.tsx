@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Alert } from 'reactstrap';
 
 import { useAppSelector } from 'app/config/store';
+import BankAccount from 'app/entities/bank-account';
 
 export const Home = () => {
   const account = useAppSelector(state => state.authentication.account);
@@ -15,6 +16,7 @@ export const Home = () => {
       {account?.login ? (
         <div>
           <Alert color="success">You are logged in as user &quot;{account.login}&quot;.</Alert>
+          <BankAccount />
         </div>
       ) : (
         <div>
