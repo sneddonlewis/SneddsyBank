@@ -71,7 +71,7 @@ export const BankAccount = () => {
                               <thead>
                                 <tr>
                                   <th>Amount</th>
-                                  <th>Execution Time</th>
+                                  <th>Time</th>
                                   <th>From Account</th>
                                   <th>To Account</th>
                                 </tr>
@@ -79,11 +79,6 @@ export const BankAccount = () => {
                               <tbody>
                                 {bankTransferList.map((bankTransfer, i) => (
                                   <tr key={`entity-${i}`} data-cy="entityTable">
-                                    <td>
-                                      <Button tag={Link} to={`/bank-transfer/${bankTransfer.id}`} color="link" size="sm">
-                                        {bankTransfer.id}
-                                      </Button>
-                                    </td>
                                     <td>{bankTransfer.amount}</td>
                                     <td>
                                       {bankTransfer.executionTime ? (
@@ -105,37 +100,6 @@ export const BankAccount = () => {
                                       ) : (
                                         ''
                                       )}
-                                    </td>
-                                    <td className="text-end">
-                                      <div className="btn-group flex-btn-group-container">
-                                        <Button
-                                          tag={Link}
-                                          to={`/bank-transfer/${bankTransfer.id}`}
-                                          color="info"
-                                          size="sm"
-                                          data-cy="entityDetailsButton"
-                                        >
-                                          <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
-                                        </Button>
-                                        <Button
-                                          tag={Link}
-                                          to={`/bank-transfer/${bankTransfer.id}/edit`}
-                                          color="primary"
-                                          size="sm"
-                                          data-cy="entityEditButton"
-                                        >
-                                          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
-                                        </Button>
-                                        <Button
-                                          tag={Link}
-                                          to={`/bank-transfer/${bankTransfer.id}/delete`}
-                                          color="danger"
-                                          size="sm"
-                                          data-cy="entityDeleteButton"
-                                        >
-                                          <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
-                                        </Button>
-                                      </div>
                                     </td>
                                   </tr>
                                 ))}
