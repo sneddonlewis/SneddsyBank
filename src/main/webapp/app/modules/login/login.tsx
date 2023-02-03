@@ -4,6 +4,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { login } from 'app/shared/reducers/authentication';
 import LoginModal from './login-modal';
+import LoginPage from 'app/modules/account/login/login-page';
 
 export const Login = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +22,7 @@ export const Login = () => {
   const handleLogin = (username, password, rememberMe = false) => dispatch(login(username, password, rememberMe));
 
   const handleClose = () => {
-    setShowModal(false);
+    // setShowModal(false);
     navigate('/');
   };
 
@@ -29,7 +30,8 @@ export const Login = () => {
   if (isAuthenticated) {
     return <Navigate to={from} replace />;
   }
-  return <LoginModal showModal={showModal} handleLogin={handleLogin} handleClose={handleClose} loginError={loginError} />;
+  // return <LoginModal showModal={showModal} handleLogin={handleLogin} handleClose={handleClose} loginError={loginError} />;
+  return <LoginPage handleLogin={handleLogin} loginError={loginError} />;
 };
 
 export default Login;
