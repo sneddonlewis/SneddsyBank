@@ -32,8 +32,16 @@ public class BankAccountService {
         return Optional.of(bankAccountRepository.save(entity));
     }
 
+    /**
+     * All the transfers in and out for an account.
+     * @param accountId ID for the account must belong to the current user.
+     * @return
+     */
     public List<BankTransfer> getTransfersForAccount(Long accountId) {
-        BankAccount account = bankAccountRepository.getReferenceById(accountId);
-        return bankTransferRepository.findAll().stream().filter(t -> t.getFromAccount().getId() != accountId).collect(Collectors.toList());
+        return bankTransferRepository
+            .findAll()
+            .stream()
+            .filter(t -> t.getFromAccount().getId().equals(accountId) || t.getToAccount().getId().equals(accountId))
+            .collect(Collectors.toList());
     }
 }
