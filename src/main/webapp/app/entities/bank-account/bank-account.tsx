@@ -48,10 +48,7 @@ export const BankAccount = () => {
             <Table>
               <thead>
                 <tr>
-                  <th>Account Name</th>
-                  <th>Type Of Account</th>
-                  <th>Balance</th>
-                  <th>User</th>
+                  <th>Account</th>
                   <th>Transactions</th>
                 </tr>
               </thead>
@@ -60,10 +57,13 @@ export const BankAccount = () => {
                   .filter(a => a.closingDate === null)
                   .map((bankAccount, i) => (
                     <tr key={`entity-${i}`} data-cy="entityTable">
-                      <td>{bankAccount.accountName}</td>
-                      <td>{bankAccount.typeOfAccount}</td>
-                      <td>{bankAccount.balance}</td>
-                      <td>{bankAccount.user ? bankAccount.user.login : ''}</td>
+                      <td>
+                        <p>{bankAccount.accountName}</p>
+                        <p>{bankAccount.cardNumber}</p>
+                        <p>{bankAccount.typeOfAccount}</p>
+                        <p>{bankAccount.balance}</p>
+                        <p>{bankAccount.user ? bankAccount.user.login : ''}</p>
+                      </td>
                       <td>
                         <div className="table-responsive">
                           {bankTransferList && bankTransferList.length > 0 ? (
@@ -77,32 +77,34 @@ export const BankAccount = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {bankTransferList.map((bankTransfer, i) => (
-                                  <tr key={`entity-${i}`} data-cy="entityTable">
-                                    <td>{bankTransfer.amount}</td>
-                                    <td>
-                                      {bankTransfer.executionTime ? (
-                                        <TextFormat type="date" value={bankTransfer.executionTime} format={APP_DATE_FORMAT} />
-                                      ) : null}
-                                    </td>
-                                    <td>
-                                      {bankTransfer.fromAccount ? (
-                                        <Link to={`/bank-account/${bankTransfer.fromAccount.id}`}>
-                                          {bankTransfer.fromAccount.cardNumber}
-                                        </Link>
-                                      ) : (
-                                        ''
-                                      )}
-                                    </td>
-                                    <td>
-                                      {bankTransfer.toAccount ? (
-                                        <Link to={`/bank-account/${bankTransfer.toAccount.id}`}>{bankTransfer.toAccount.cardNumber}</Link>
-                                      ) : (
-                                        ''
-                                      )}
-                                    </td>
-                                  </tr>
-                                ))}
+                                {bankTransferList
+                                  .filter(t => t.fromAccount !== bankAccount.cardNumber)
+                                  .map((bankTransfer, i) => (
+                                    <tr key={`entity-${i}`} data-cy="entityTable">
+                                      <td>{bankTransfer.amount}</td>
+                                      <td>
+                                        {bankTransfer.executionTime ? (
+                                          <TextFormat type="date" value={bankTransfer.executionTime} format={APP_DATE_FORMAT} />
+                                        ) : null}
+                                      </td>
+                                      <td>
+                                        {bankTransfer.fromAccount ? (
+                                          <Link to={`/bank-account/${bankTransfer.fromAccount.id}`}>
+                                            {bankTransfer.fromAccount.cardNumber}
+                                          </Link>
+                                        ) : (
+                                          ''
+                                        )}
+                                      </td>
+                                      <td>
+                                        {bankTransfer.toAccount ? (
+                                          <Link to={`/bank-account/${bankTransfer.toAccount.id}`}>{bankTransfer.toAccount.cardNumber}</Link>
+                                        ) : (
+                                          ''
+                                        )}
+                                      </td>
+                                    </tr>
+                                  ))}
                               </tbody>
                             </Table>
                           ) : (
