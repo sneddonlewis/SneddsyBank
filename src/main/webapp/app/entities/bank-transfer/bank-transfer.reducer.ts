@@ -18,10 +18,12 @@ const apiUrl = 'api/bank-transfers';
 
 // Actions
 
-export const getEntities = createAsyncThunk('bankTransfer/fetch_entity_list', async ({ page, size, sort }: IQueryParams) => {
+const getEntities = createAsyncThunk('bankTransfer/fetch_entity_list', async ({ page, size, sort }: IQueryParams) => {
   const requestUrl = `${apiUrl}?cacheBuster=${new Date().getTime()}`;
   return axios.get<IBankTransfer[]>(requestUrl);
 });
+
+export const getTransactions = getEntities;
 
 export const getEntity = createAsyncThunk(
   'bankTransfer/fetch_entity',
