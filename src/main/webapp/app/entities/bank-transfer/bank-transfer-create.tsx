@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { Button, Row, Col } from 'reactstrap';
+import { ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { getEntities as getBankAccounts } from 'app/entities/bank-account/bank-account.reducer';
-import { IBankTransfer } from 'app/shared/model/bank-transfer.model';
 import { getEntity, updateEntity, createEntity, reset } from './bank-transfer.reducer';
 
-export const BankTransferUpdate = () => {
+export const BankTransferCreate = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -28,7 +25,7 @@ export const BankTransferUpdate = () => {
   const updateSuccess = useAppSelector(state => state.bankTransfer.updateSuccess);
 
   const handleClose = () => {
-    navigate('/bank-transfer');
+    navigate('/');
   };
 
   useEffect(() => {
@@ -123,7 +120,7 @@ export const BankTransferUpdate = () => {
                     ))
                   : null}
               </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/bank-transfer" replace color="info">
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">Back</span>
@@ -141,4 +138,4 @@ export const BankTransferUpdate = () => {
   );
 };
 
-export default BankTransferUpdate;
+export default BankTransferCreate;

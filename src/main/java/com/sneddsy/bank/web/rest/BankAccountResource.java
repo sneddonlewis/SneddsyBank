@@ -1,6 +1,7 @@
 package com.sneddsy.bank.web.rest;
 
 import com.sneddsy.bank.domain.BankAccount;
+import com.sneddsy.bank.domain.BankTransfer;
 import com.sneddsy.bank.repository.BankAccountRepository;
 import com.sneddsy.bank.service.BankAccountService;
 import com.sneddsy.bank.web.rest.errors.BadRequestAlertException;
@@ -185,6 +186,19 @@ public class BankAccountResource {
         log.debug("REST request to get BankAccount : {}", id);
         Optional<BankAccount> bankAccount = bankAccountRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(bankAccount);
+    }
+
+    /**
+     * {@code GET  /bank-accounts/:id/transactions} : get the transfers in and out of the account with "id" bankAccount.
+     *
+     * @param id the id of the bankAccount to retrieve transactions for.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bankAccount, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/bank-accounts/{id}/transactions")
+    public ResponseEntity<List<BankTransfer>> getTransactions(@PathVariable Long id) {
+        log.debug("REST request to get BankAccount : {}", id);
+        List<BankTransfer> transactions = bankAccountService.getTransfersForAccount(id);
+        return ResponseEntity.ok(transactions);
     }
 
     /**
