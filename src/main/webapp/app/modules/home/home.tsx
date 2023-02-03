@@ -15,7 +15,6 @@ export const Home = () => {
     <div>
       {account?.login ? (
         <div>
-          <Alert color="success">{account.login}</Alert>
           <BankAccount />
         </div>
       ) : (
