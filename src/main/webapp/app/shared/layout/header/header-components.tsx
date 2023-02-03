@@ -15,11 +15,3 @@ export const Brand = () => (
     <span className="navbar-version">{VERSION}</span>
   </NavbarBrand>
 );
-
-export const BankAccountsNavLink = () => {
-  return (
-    <NavItem>
-      <NavLink href="/bank-account">Accounts</NavLink>
-    </NavItem>
-  );
-};

@@ -15,7 +15,7 @@ export const Home = () => {
     <div>
       {account?.login ? (
         <div>
-          <Alert color="success">You are logged in as user &quot;{account.login}&quot;.</Alert>
+          <Alert color="success">{account.login}</Alert>
           <BankAccount />
         </div>
       ) : (

@@ -2,6 +2,7 @@ import React from 'react';
 import MenuItem from 'app/shared/layout/menus/menu-item';
 
 import { NavDropdown } from './menu-components';
+import { useAppSelector } from 'app/config/store';
 
 const accountMenuItemsAuthenticated = () => (
   <>
@@ -28,10 +29,13 @@ const accountMenuItems = () => (
   </>
 );
 
-export const AccountMenu = ({ isAuthenticated = false }) => (
-  <NavDropdown icon="user" name="Profile" id="account-menu" data-cy="accountMenu">
-    {isAuthenticated ? accountMenuItemsAuthenticated() : accountMenuItems()}
-  </NavDropdown>
-);
+export const AccountMenu = ({ isAuthenticated = false }) => {
+  const username = isAuthenticated ? useAppSelector(state => state.authentication.account.login) : 'Profile';
+  return (
+    <NavDropdown icon="user" name={username} id="account-menu" data-cy="accountMenu">
+      {isAuthenticated ? accountMenuItemsAuthenticated() : accountMenuItems()}
+    </NavDropdown>
+  );
+};
 
 export default AccountMenu;
